@@ -1,0 +1,54 @@
+package com.sp.xmgl.servlet;
+
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
+import com.sp.xmgl.dao.CostDao;
+import com.sp.xmgl.vo.Emp;
+import com.sp.xmgl.vo.Project;
+
+public class AjaxServlet extends HttpServlet {
+	@Override
+	protected void service(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		
+		response.setCharacterEncoding("UTF-8");
+		PrintWriter pw = response.getWriter();
+		String projectselect=request.getParameter("projectselect");
+		//System.out.println(projectselect);
+		CostDao costDao= new CostDao();
+		List<Project> projectList = costDao.select(Integer.parseInt(projectselect));
+		//JSONObject emps = new JSONObject();
+		JSONObject customers = new JSONObject();
+		//JSONArray empArray = new JSONArray();
+		JSONArray cusArray = new JSONArray();
+		for(Project p:projectList){
+			JSONObject customer = new JSONObject();
+			customer.put("projectid", p.getProjectid());
+			customer.put("projectname", p.getProjectname());
+			customer.put("customerid", p.getCustomer().getCustomerId());
+			customer.put("customername", p.getCustomer().getCustomerName());
+			customer.put("empid", p.getManager().getEmpId());
+			customer.put("empname", p.getManager().getEmpName());
+			customer.put("workercount", p.getWorkerCount());
+			cusArray.add(customer);
+		}
+		customers.put("customers", cusArray);
+		pw.print(customers);
+		String str = customers.toString();
+		System.out.println(str);
+		
+		
+		
+	}
+}

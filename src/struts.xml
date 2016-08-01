@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<package name="cost" namespace="/cost" extends="struts-default">
+		<action name="cost_*" class="com.sp.xmgl.action.CostInfoAction" method="{1}">
+			<result name="query">/jsp/cost/xmglcost.jsp</result>
+			<result name="add">/jsp/cost/xmglcostadd.jsp</result>
+			<result name="addsave" type="chain">cost_query</result>
+			<result name="select" >/jsp/cost/xmglcost.jsp</result>
+			<result name="delete" type="chain">cost_query</result>
+			<result name="edit">/jsp/cost/xmglcostedit.jsp</result>
+			<result name="save" type="chain">cost_query</result>
+		</action>
+	</package>
+</struts>    
